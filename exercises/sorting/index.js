@@ -61,29 +61,65 @@ function selectionSort(arr) {
   return arr;
 }
 
+// function mergeSort(arr) {
+//   if (arr.length === 1) {
+//     return arr;
+//   }
+
+//   const center = Math.floor(arr.length / 2);
+//   const left = arr.slice(0, center);
+//   const right = arr.slice(center);
+
+//   return merge(mergeSort(left), mergeSort(right));
+// }
+
+// function merge(left, right) {
+//   const result = [];
+
+//   while (left.length && right.length) {
+//     if (left[0] > right[0]) {
+//       result.push(right.shift());
+//     } else {
+//       result.push(left.shift());
+//     }
+//   }
+//   return [...result, ...left, ...right];
+// }
+
+// 第二種 margeSort 寫法
 function mergeSort(arr) {
-  if (arr.length === 1) {
-    return arr;
-  }
+  if (arr.length <= 1) return arr;
 
   const center = Math.floor(arr.length / 2);
-  const left = arr.slice(0, center);
-  const right = arr.slice(center);
+  const left = mergeSort(arr.slice(0, center));
+  const right = mergeSort(arr.slice(center));
 
-  return merge(mergeSort(left), mergeSort(right));
+  return merge(left, right);
 }
 
 function merge(left, right) {
   const result = [];
+  let leftPoint = 0;
+  let rightPoint = 0;
 
-  while (left.length && right.length) {
-    if (left[0] > right[0]) {
-      result.push(right.shift());
+  while (leftPoint < left.length && rightPoint < right.length) {
+    if (left[leftPoint] < right[rightPoint]) {
+      result.push(left[leftPoint]);
+      leftPoint++;
     } else {
-      result.push(left.shift());
+      result.push(right[rightPoint]);
+      rightPoint++;
     }
   }
-  return [...result, ...left, ...right];
+
+  if (leftPoint < left.length) {
+    result.push(...left.slice(leftPoint));
+  }
+  if (rightPoint < right.length) {
+    result.push(...right.slice(rightPoint));
+  }
+
+  return result;
 }
 
 module.exports = { bubbleSort, selectionSort, mergeSort, merge };
