@@ -52,6 +52,22 @@ class BinarySearchTree {
     }
     return current;
   }
+
+  // 由上到下, 由左到右印出
+  BFS() {
+    let node = this.root;
+    let data = [];
+    let queue = [];
+
+    queue.push(node);
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node.value);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    return data;
+  }
 }
 
 var tree = new BinarySearchTree();
@@ -68,3 +84,5 @@ console.log(tree.root.right.value === 20);
 console.log(tree);
 console.log("find 5 ", tree.find(5).value === 5);
 console.log("find 999 === null ", tree.find(999) === null);
+
+module.exports = BinarySearchTree;
